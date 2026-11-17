@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Finansman Gider Kısıtlaması — Araştırma Raporu</title>
+<style>
+  :root{
+    --ink:#1f2933;
+    --muted:#52606d;
+    --brand:#1f4e79;
+    --brand-soft:#e8eff6;
+    --accent:#8a5a00;
+    --accent-soft:#fdf3dc;
+    --line:#cbd2d9;
+    --serif:Georgia,"Times New Roman",serif;
+    --sans:"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{font-size:16px}
+  body{margin:0;background:#eef1f4;color:var(--ink);font-family:var(--serif);line-height:1.6;font-size:1rem}
+
+  .sayfa{background:#fff;max-width:210mm;margin:16px auto;padding:20mm 18mm;box-shadow:0 1px 6px rgba(0,0,0,.18)}
+  h1,h2,h3,.etiket,th,caption,.kunye,.toc,.not,figcaption{font-family:var(--sans)}
+
+  h2{font-size:1.5rem;color:var(--brand);margin:1.8em 0 .5em;padding-bottom:.25em;border-bottom:2px solid var(--brand);line-height:1.25}
+  .icerik h2:first-child{margin-top:0}
+  h2 .no{display:inline-block;min-width:1.6em;color:var(--muted)}
+  h3{font-size:1.15rem;color:var(--ink);margin:1.4em 0 .4em;line-height:1.3}
+  p{margin:.7em 0;text-align:left;orphans:3;widows:3}
+  ul,ol{padding-left:1.4em}
+  li{margin:.3em 0}
+  a{color:var(--brand);overflow-wrap:anywhere}
+  code,.formul{font-family:Consolas,"Courier New",monospace}
+
+  /* Kapak */
+  .kapak{display:flex;flex-direction:column;min-height:257mm;justify-content:space-between;padding:0}
+  .kapak-ust{background:var(--brand);color:#fff;padding:18mm 18mm 14mm;font-family:var(--sans)}
+  .kapak-ust .etiket{letter-spacing:.12em;text-transform:uppercase;font-size:.875rem}
+  .kapak h1{font-size:2.4rem;line-height:1.15;margin:.6em 0 .3em;font-weight:700}
+  .kapak .alt{font-size:1.2rem;margin:0}
+  .kapak-orta{padding:0 18mm}
+  .kapak-orta p{font-family:var(--sans);color:var(--ink);border-left:4px solid var(--brand);padding-left:1em}
+  .kunye{padding:0 18mm 18mm;font-size:.95rem}
+  .kunye table{width:100%;border-collapse:collapse}
+  .kunye th,.kunye td{text-align:left;padding:.45em .6em;border-top:1px solid var(--line);vertical-align:top}
+  .kunye th{width:32%;color:var(--muted);font-weight:600}
+
+  /* İçindekiler */
+  .toc h2{border-bottom-color:var(--line);margin-top:0}
+  .toc ol{list-style:none;padding:0;margin:1em 0 0;counter-reset:t}
+  .toc li{counter-increment:t;display:flex;align-items:baseline;gap:.5em;padding:.55em 0;border-bottom:1px dotted var(--line);font-size:1.05rem}
+  .toc li::before{content:counter(t) ".";color:var(--brand);font-weight:700;min-width:1.6em}
+  .toc a{text-decoration:none;color:var(--ink);flex:1}
+  @media print{ .toc a[href]::after{content:leader('.') target-counter(attr(href),page);color:var(--muted)} }
+
+  /* Bileşenler */
+  .dogrulanamadi{background:var(--accent-soft);border:1px solid var(--accent);color:var(--accent);padding:0 .4em;border-radius:3px;font-family:var(--sans);font-size:.85em;font-weight:600;white-space:nowrap}
+  .ref{font-family:var(--sans);font-size:.8em;color:var(--brand);vertical-align:super;line-height:0;font-weight:600}
+  .not{background:var(--brand-soft);border-left:4px solid var(--brand);padding:.7em 1em;margin:1em 0;font-size:.97rem;break-inside:avoid}
+  .not.uyari{background:var(--accent-soft);border-left-color:var(--accent)}
+  .not strong.b{display:block;margin-bottom:.2em}
+  .not ul{margin:.3em 0 0}
+  .formul{background:#f5f7fa;border:1px solid var(--line);padding:.6em .9em;margin:.8em 0;font-size:.92rem;break-inside:avoid;overflow-x:auto}
+
+  figure{margin:1.2em 0;break-inside:avoid}
+  figcaption{font-size:.95rem;font-weight:600;color:var(--brand);margin-bottom:.4em}
+  .tablo-sar{overflow-x:auto}
+  table.hesap{width:100%;border-collapse:collapse;font-family:var(--sans);font-size:.95rem;font-variant-numeric:tabular-nums}
+  table.hesap th,table.hesap td{border:1px solid var(--line);padding:.5em .7em;vertical-align:top;text-align:left}
+  table.hesap thead th{background:var(--brand);color:#fff}
+  table.hesap tbody tr:nth-child(even){background:#f5f7fa}
+  table.hesap td.sayi,table.hesap th.sayi{text-align:right;white-space:nowrap}
+  table.hesap tr.ara td{background:var(--brand-soft);font-weight:600}
+  table.hesap tfoot td{background:var(--brand);color:#fff;font-weight:700;border-color:var(--brand)}
+
+  ol.kaynak{padding-left:1.6em;font-size:.95rem}
+  ol.kaynak li{break-inside:avoid;overflow-wrap:anywhere}
+  .kucuk{font-family:var(--sans);font-size:.88rem;color:var(--muted)}
+
+  @media (max-width:700px){
+    .sayfa{margin:0 0 8px;padding:6vw;box-shadow:none}
+    .kapak{min-height:auto}
+    .kapak-ust{padding:8vw 6vw}
+    .kapak-orta,.kunye{padding-left:6vw;padding-right:6vw}
+    .kapak h1{font-size:1.8rem}
+    .kunye th{width:40%}
+  }
+
+  @page{
+    size:A4;
+    margin:22mm 18mm 20mm 18mm;
+    @top-left{content:"Finansman Gider Kısıtlaması";font:9pt "Segoe UI",Arial,sans-serif;color:#52606d}
+    @top-right{content:"Araştırma Raporu";font:9pt "Segoe UI",Arial,sans-serif;color:#52606d}
+    @bottom-center{content:"Sayfa " counter(page) " / " counter(pages);font:9pt "Segoe UI",Arial,sans-serif;color:#52606d}
+  }
+  @page :first{
+    margin:0;
+    @top-left{content:none}@top-right{content:none}@bottom-center{content:none}
+  }
+  @media print{
+    html{font-size:11pt}
+    body{background:#fff;font-size:11pt;line-height:1.5}
+    .sayfa{max-width:none;margin:0;padding:0;box-shadow:none}
+    .kapak,.toc{break-after:page;page-break-after:always}
+    .kapak{min-height:297mm;height:297mm}
+    .kapak-ust{padding:22mm 18mm 16mm}
+    .kapak-orta{padding:0 18mm}
+    .kunye{padding:0 18mm 20mm}
+    h2,h3{break-after:avoid;page-break-after:avoid}
+    table,figure,.not,blockquote,.formul{break-inside:avoid;page-break-inside:avoid}
+    tr{break-inside:avoid}
+    thead{display:table-header-group}
+    a{color:inherit;text-decoration:none}
+    .kaynak a{text-decoration:none}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+</style>
+</head>
+<body>
+
+<!-- KAPAK -->
+<section class="sayfa kapak" id="kapak">
+  <div class="kapak-ust">
+    <div class="etiket">Vergi Hukuku · Araştırma Raporu</div>
+    <h1>Finansman Gider Kısıtlaması</h1>
+    <p class="alt">KVK md. 11/1-i, GVK md. 41/1-9 ve Vergi Usul Kanunu ile ilişkisi: dayanak, kapsam, oran, hesaplama ve uygulama</p>
+  </div>
+  <div class="kapak-orta">
+    <p>Bu rapor, yabancı kaynakları öz kaynaklarını aşan işletmelerde finansman giderlerinin kısmen kazançtan indirilememesini düzenleyen kısıtlamayı ele alır. Yasal dayanak, kapsam, %10 oranı, hesaplama yöntemi ve beyanname uygulaması özetlenir; Vergi Usul Kanunu'na göre düzenlenen bilançonun testteki rolü açıklanır. Bulgular ağırlıklı olarak ikincil kaynaklara dayanır; resmî teyit bekleyen noktalar işaretlenmiştir.</p>
+  </div>
+  <div class="kunye">
+    <table>
+      <tr><th scope="row">Rapor tarihi</th><td>17.11.2026</td></tr>
+      <tr><th scope="row">İş kimliği</th><td>2026-11-17-vergi-usul-kanunu-finansman-gider</td></tr>
+      <tr><th scope="row">Hazırlayan</th><td>Ajan Ofisi</td></tr>
+      <tr><th scope="row">Durum</th><td>Taslak — resmî kaynak teyidi bekliyor</td></tr>
+      <tr><th scope="row">Not</th><td>Bu rapor genel bilgilendirme amaçlıdır; vergi danışmanlığı yerine geçmez. Mevzuat güncel ve resmî kaynaklardan doğrulanmalıdır.</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- İÇİNDEKİLER -->
+<section class="sayfa toc" id="icindekiler" aria-labelledby="toc-b">
+  <h2 id="toc-b">İçindekiler</h2>
+  <ol>
+    <li><a href="#ozet">Özet</a></li>
+    <li><a href="#b1">Giriş ve Yasal Dayanak</a></li>
+    <li><a href="#b2">Kapsam ve Kimler Uygular</a></li>
+    <li><a href="#b3">Oran ve Tarihçe</a></li>
+    <li><a href="#b4">Hesaplama Yöntemi ve Örnek</a></li>
+    <li><a href="#b5">Muhasebe ve Beyanname Uygulaması</a></li>
+    <li><a href="#b6">Güncel Gelişmeler ve Dikkat Edilecekler</a></li>
+    <li><a href="#b7">Belirsizlikler ve Doğrulanması Gerekenler</a></li>
+    <li><a href="#b8">Kaynaklar</a></li>
+  </ol>
+</section>
+
+<!-- İÇERİK -->
+<main class="sayfa icerik">
+
+<h2 id="ozet">Özet</h2>
+<div class="not uyari">
+  <strong class="b">Kaynak durumu</strong>
+  Resmî kaynaklara (GİB, Resmî Gazete, mevzuat.gov.tr) doğrudan erişilemedi. Bulgular ağırlıkla ikincil kaynaklara (YMM/SMMM yazıları, mevzuat-haber siteleri) dayanır. <span class="dogrulanamadi">doğrulanamadı</span> ile işaretlenen noktalar yayım öncesinde resmî metinle teyit edilmelidir.
+</div>
+<ul>
+  <li>Finansman gider kısıtlaması, yabancı kaynakları öz kaynaklarını aşan işletmelerde, aşan kısma isabet eden finansman giderlerinin Cumhurbaşkanınca belirlenen oranının kazançtan indirilememesidir. Dayanak, kurumlar için KVK md. 11/1-i, gelir vergisi mükellefleri için GVK md. 41/1-9'dur.<span class="ref">[1][2]</span></li>
+  <li>Oran, 3490 sayılı Cumhurbaşkanı Kararı (RG 4.2.2021, sayı 31385) ile %10 belirlenmiştir; 1.1.2021'den itibaren uygulanır.<span class="ref">[1][2]</span></li>
+  <li>Karşılaştırma, VUK'a göre düzenlenen ve vergi karşılıkları ayrılmadan önceki bilanço üzerinden yapılır; geçici vergi dönemlerinde de uygulanır.<span class="ref">[2][3]</span></li>
+  <li>Bankalar, finansal kuruluşlar, finansal kiralama, faktoring ve finansman şirketleri kapsam dışıdır; yatırım maliyetine eklenen tutarlar da kısıtlamaya girmez.<span class="ref">[1][2]</span></li>
+  <li>İncelenen kaynaklarda %10 oranının sonradan değiştirildiğine dair bulgu yoktur; 2026 için değişiklik olmadığı <span class="dogrulanamadi">doğrulanamadı</span>.</li>
+</ul>
+
+<h2 id="b1"><span class="no">1.</span>Giriş ve Yasal Dayanak</h2>
+<p>Finansman gider kısıtlaması, işletmelerin yabancı kaynakla finanse edilen kısmına ait finansman giderlerinin bir bölümünü kurumlar veya gelir vergisi matrahının tespitinde gider olarak kabul etmeyen bir düzenlemedir.</p>
+
+<h3>1.1 Yasal dayanak</h3>
+<ul>
+  <li><strong>KVK md. 11/1-i:</strong> 6322 sayılı Kanun'un 37. maddesiyle eklenmiştir; kredi ve finans sektörü kuruluşları hariç tutulmuştur.<span class="ref">[2]</span></li>
+  <li><strong>GVK md. 41/1 (9) numaralı bent:</strong> gelir vergisi mükellefleri için karşılık hükümdür.<span class="ref">[1]</span></li>
+  <li><strong>Oran kararı:</strong> 3/2/2021 tarihli, 4/2/2021 tarih ve 31385 sayılı Resmî Gazete'de yayımlanan 3490 sayılı Cumhurbaşkanı Kararı.<span class="ref">[1][2]</span> Kanun, oranın sektörler itibarıyla farklılaştırılabileceğini belirtir; farklılaştırılmış bir oran bulunmamıştır.<span class="ref">[2]</span></li>
+  <li><strong>Tebliğ:</strong> 1 Seri No.lu Kurumlar Vergisi Genel Tebliği (bölüm 11.13; özellikle 11.13.2 ve 11.13.5) bilanço esasını açıklar.<span class="ref">[3]</span></li>
+</ul>
+
+<h3>1.2 Vergi Usul Kanunu ile ilişkisi</h3>
+<p>Kısıtlama bir VUK hükmü değil, KVK/GVK hükmüdür. Ancak yabancı kaynak/öz kaynak testi, VUK'a göre düzenlenen bilanço üzerinden yapılır; bu nedenle VUK kapsamındaki bilanço ve defter kayıtları testin doğrudan girdisidir.<span class="ref">[2][3]</span> VUK madde numaraları kaynaklarda net olarak doğrulanmadığından rapora yazılmamıştır <span class="dogrulanamadi">doğrulanamadı</span>.</p>
+
+<h2 id="b2"><span class="no">2.</span>Kapsam ve Kimler Uygular</h2>
+
+<h3>2.1 Uygulama şartı</h3>
+<p>Kullanılan yabancı kaynakların öz kaynağı aşması gerekir; aşmıyorsa kısıtlama uygulanmaz.<span class="ref">[1][2]</span> Öz kaynak sıfır veya negatifse yabancı kaynağın tamamı aşan kabul edilir.<span class="ref">[2]</span></p>
+<p>Kapsanan giderler: faiz, komisyon, vade farkı, kâr payı, kur farkı ve benzeri adlarla yabancı kaynak kullanımına bağlı giderlerdir.<span class="ref">[1]</span></p>
+
+<h3>2.2 Kapsam dışı olanlar</h3>
+<ul>
+  <li>Kredi kuruluşları, finansal kuruluşlar, finansal kiralama, faktoring ve finansman şirketleri.<span class="ref">[1][2]</span></li>
+  <li>Yatırım maliyetine eklenen (aktifleştirilen) finansman giderleri.<span class="ref">[1][2]</span></li>
+  <li>Standart POS komisyonları finansman gideri sayılmaz (özelge 18.10.2022, E-38418978-125[6-2021/30]-476079; ikincil aktarım).<span class="ref">[2]</span></li>
+  <li>Diğer muafiyetler (ör. teşvik belgeli yatırım, inşaat taahhüt) için kaynak bulunamadı <span class="dogrulanamadi">doğrulanamadı</span>.</li>
+</ul>
+
+<div class="not uyari">
+  <strong class="b">Dikkat</strong>
+  Kredi kaynaklı kur farkları finansman giderindendir. Ticari borç ve avanslara ilişkin kur farkları ise tartışmalıdır; özelgelerde kapsama alınabildiği belirtilmektedir.<span class="ref">[2]</span>
+</div>
+
+<h2 id="b3"><span class="no">3.</span>Oran ve Tarihçe</h2>
+<p>Yasal çerçeve 2012'de 6322 sayılı Kanun ile getirilmiş, oran 3490 sayılı Kararla %10 belirlenerek uygulama fiilen 2021'de başlamıştır.<span class="ref">[1][2]</span> 2012–2021 arasındaki yürürlük ayrıntısı doğrulanmamıştır.</p>
+
+<figure>
+  <figcaption>Tablo 3.1 — Oran tarihçesi</figcaption>
+  <div class="tablo-sar">
+  <table class="hesap">
+    <thead>
+      <tr><th scope="col">Dönem</th><th scope="col" class="sayi">Oran</th><th scope="col">Dayanak</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>2012</td><td class="sayi">—</td><td>6322 sayılı Kanun md. 37 (yasal çerçeve; oran belirlenmesi Cumhurbaşkanına bırakıldı)</td></tr>
+      <tr><td>1.1.2021'den itibaren</td><td class="sayi">%10</td><td>3490 sayılı Cumhurbaşkanı Kararı, RG 4.2.2021, sayı 31385</td></tr>
+      <tr><td>2026</td><td class="sayi">%10 (değişiklik bulgusu yok)</td><td>Değişiklik <span class="dogrulanamadi">doğrulanamadı</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+</figure>
+
+<p>Araştırılan kaynaklarda oranın sonradan değiştirildiğine dair bulgu yoktur; 6 Nisan 2026 tarihli yazı da değişiklik belirtmez.<span class="ref">[2]</span> 30.4.2026 tarihli 11257 sayılı Cumhurbaşkanı Kararı'nın KVK'daki bazı istisna/indirim oranlarını değiştirdiği bildirilmiştir; finansman gider oranına dokunduğuna dair bulgu yoktur, ancak karar metni okunmamıştır <span class="dogrulanamadi">doğrulanamadı</span>.<span class="ref">[4]</span></p>
+<p><strong>Sonuç:</strong> 2026 itibarıyla güncel oran %10 kabul edilmelidir; resmî teyit gerekir.</p>
+
+<h2 id="b4"><span class="no">4.</span>Hesaplama Yöntemi ve Örnek</h2>
+
+<h3>4.1 Adımlar</h3>
+<ol>
+  <li>Karşılaştırmayı VUK'a göre düzenlenen, vergi karşılıkları ayrılmadan önceki bilanço üzerinden yapın; her geçici vergi dönemi sonunda ve yıllık olarak tekrarlayın.<span class="ref">[2][3]</span></li>
+  <li>Yabancı kaynak ile öz kaynağı karşılaştırın; yabancı kaynak fazlaysa aşan kısmı bulun.</li>
+  <li>Aktifleştirilmeyen toplam finansman giderini, aşan kısmın yabancı kaynağa oranıyla çarpın.</li>
+  <li>Çıkan tutarın %10'unu hesaplayın; bu tutar kanunen kabul edilmeyen gider (KKEG) olarak kâra eklenir.<span class="ref">[2][5]</span></li>
+</ol>
+<div class="formul">
+  Aşan kısım = Yabancı kaynak − Öz kaynak<br>
+  Kısıtlamaya tabi gider = Toplam finansman gideri × (Aşan kısım ÷ Yabancı kaynak)<br>
+  KKEG = Kısıtlamaya tabi gider × %10
+</div>
+<p class="kucuk">Bir kaynak eşdeğer ifade olarak "net finansman gideri × aşan kısım oranı × %10" biçimini kullanır.<span class="ref">[5]</span></p>
+
+<h3>4.2 Sayısal örnek</h3>
+<p>Aşağıdaki örnek <strong>varsayımsaldır</strong>; kaynaklı değildir ve yalnızca hesabı göstermek içindir.</p>
+
+<figure>
+  <figcaption>Tablo 4.1 — Örnek hesap (tutarlar TL; varsayımsal)</figcaption>
+  <div class="tablo-sar">
+  <table class="hesap">
+    <thead>
+      <tr><th scope="col">Kalem</th><th scope="col">Açıklama</th><th scope="col" class="sayi">Tutar (TL)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>A</td><td>Yabancı kaynak</td><td class="sayi">10.000.000</td></tr>
+      <tr><td>B</td><td>Öz kaynak</td><td class="sayi">4.000.000</td></tr>
+      <tr class="ara"><td>C</td><td>Aşan kısım (A − B) — yabancı kaynağın %60'ı</td><td class="sayi">6.000.000</td></tr>
+      <tr><td>D</td><td>Finansman gideri (aktifleştirilmeyen)</td><td class="sayi">2.000.000</td></tr>
+      <tr class="ara"><td>E</td><td>Kısıtlamaya tabi kısım (D × 6/10)</td><td class="sayi">1.200.000</td></tr>
+      <tr><td>F</td><td>Uygulanacak oran</td><td class="sayi">%10</td></tr>
+    </tbody>
+    <tfoot>
+      <tr><td colspan="2">KKEG (E × F)</td><td class="sayi">120.000</td></tr>
+    </tfoot>
+  </table>
+  </div>
+</figure>
+<p>Kurumlar vergisi etkisi, uygulanan orana göre KKEG × orandır; örneğin %25 oranda 30.000 TL'dir (uygulanacak oran ayrıca teyit edilmelidir <span class="dogrulanamadi">doğrulanamadı</span>).</p>
+
+<h2 id="b5"><span class="no">5.</span>Muhasebe ve Beyanname Uygulaması</h2>
+
+<h3>5.1 Muhasebe</h3>
+<p>Finansman giderleri muhasebe kayıtlarında gider olarak izlenmeye devam eder; kısıtlanan kısım yalnızca beyanname düzeyinde düzeltilir.<span class="ref">[5]</span> Kaynaklarda örnek yevmiye kaydı yer almadığından rapora kayıt örneği eklenmemiştir.</p>
+
+<h3>5.2 Beyanname ve geçici vergi</h3>
+<ul>
+  <li>Kısıtlanan tutar, kurumlar vergisi beyannamesinde KKEG olarak kâra eklenir ve geçici vergi beyannamelerine yansıtılır. Kesin satır/kod numarası <span class="dogrulanamadi">doğrulanamadı</span>.<span class="ref">[5]</span></li>
+  <li>Geçici vergide ara bilanço hazırlanmalı; dönem kârı/zararı, sermaye hareketleri ve kâr dağıtımı öz kaynağa yansıtılmalıdır.<span class="ref">[2]</span></li>
+  <li>Aynı kaynaktan doğan kur farkı gelir/giderleri netleştirilebilir; farklı kaynaklar mahsup edilemez (özelge 3.2.2023, E-62030549-125-166945).<span class="ref">[2]</span></li>
+</ul>
+
+<h2 id="b6"><span class="no">6.</span>Güncel Gelişmeler ve Dikkat Edilecekler</h2>
+<p>GİB özelgesi (25.9.2025, 38418978-125[6-2023/4]-542301): test, vergi ve yasal yükümlülükler hesaplanmadan önceki VUK bilançosuna göre yapılır; dayanak KVK md. 6, 11/1-i ve 1 Seri No.lu KVGT 11.13.2 ile 11.13.5'tir.<span class="ref">[3]</span></p>
+
+<div class="not uyari">
+  <strong class="b">Dikkat edilecekler</strong>
+  <ul>
+    <li>Aktifleştirilen finansman giderlerini ayırın; bunlar kapsam dışıdır.</li>
+    <li>Öz kaynağı doğru, yani vergi karşılığı öncesi bilanço üzerinden hesaplayın.</li>
+    <li>Geçici vergi dönemlerini atlamayın; test her dönemde yapılır.</li>
+    <li>Kur farkı, POS komisyonu, erken ödeme iskontosu gibi kalemlerde finansman unsurunun bulunup bulunmadığını olay bazında değerlendirin.<span class="ref">[2]</span></li>
+    <li>Ticari borç/avans kur farklarının kapsamı tartışmalıdır; yargı kararlarıyla netleşebileceği belirtilmektedir.<span class="ref">[2]</span></li>
+  </ul>
+</div>
+
+<h3>Sonuç</h3>
+<p>Finansman gider kısıtlaması, yabancı kaynak/öz kaynak dengesine bağlı, %10 oranlı ve VUK bilançosuna dayalı bir testtir. Uygulamada en kritik noktalar doğru bilançonun esas alınması, aktifleştirilen giderlerin ayrılması ve kur farkı gibi tartışmalı kalemlerin ayrı değerlendirilmesidir. Rapordaki bulgular ikincil kaynaklara dayandığından, uygulamadan önce birincil kaynaklarla teyit gerekir.</p>
+
+<h2 id="b7"><span class="no">7.</span>Belirsizlikler ve Doğrulanması Gerekenler</h2>
+<ul>
+  <li>Resmî kaynaklara doğrudan erişilemedi; 3490 sayılı Karar ve tebliğ metinleri birincil kaynaktan okunmadı.</li>
+  <li>Finansman gideri tanımı için bir kaynak "18 No.lu KVGT"ye,<span class="ref">[2]</span> bir diğeri "1 Seri No.lu KVGT"ye<span class="ref">[3]</span> atıf yapar. Bu raporda, bölüm numaralarıyla birlikte verilen ve çelişmeyen "1 Seri No.lu KVGT" esas alınmıştır; "18 No.lu" atıf <span class="dogrulanamadi">doğrulanamadı</span>.</li>
+  <li>2026'da oran değişikliği olup olmadığı kesin doğrulanamadı; 11257 sayılı Karar kaydı yalnızca ikincil kaynaktandır.</li>
+  <li>Kurumlar vergisi oranı, beyanname satır numarası, ek muafiyetler ve VUK madde atfı doğrulanmadı.</li>
+  <li>[4] numaralı kaynak yalnızca arama özetinden, [5] numaralı kaynak ise erişim engeli (403) nedeniyle yalnızca arama özetinden değerlendirilmiştir.</li>
+</ul>
+
+<h2 id="b8"><span class="no">8.</span>Kaynaklar</h2>
+<p class="kucuk">Aşağıdakilerin tamamı ikincil kaynaktır. Yayın öncesi teyit için önerilen birincil kaynaklar listenin altındadır.</p>
+<ol class="kaynak">
+  <li>Finansman Gider Kısıtlaması Getirildi — Alomaliye — 4.2.2021 — <a href="https://www.alomaliye.com/2021/02/04/finansman-gider-kisitlamasi-getirildi/">https://www.alomaliye.com/2021/02/04/finansman-gider-kisitlamasi-getirildi/</a> (güncel olmayabilir)</li>
+  <li>Finansman Gider Kısıtlamasında Öz Kaynak Tespiti, Kur Farkları (Cihangir Özkök, YMM) — Alomaliye — 6.4.2026 — <a href="https://www.alomaliye.com/2026/04/06/finansman-gider-kisitlamasinda-oz-kaynak-tespiti-kur-farklari/">https://www.alomaliye.com/2026/04/06/finansman-gider-kisitlamasinda-oz-kaynak-tespiti-kur-farklari/</a></li>
+  <li>Finansman Gider Kısıtlamasında Vergi Öncesi Bilanço Esas Alınacak (özelge aktarımı) — Alomaliye — 25.9.2025 — <a href="https://www.alomaliye.com/2025/09/25/finansman-gider-kisitlamasinda-vergi-oncesi-bilanco-esas-alinacak/">https://www.alomaliye.com/2025/09/25/finansman-gider-kisitlamasinda-vergi-oncesi-bilanco-esas-alinacak/</a></li>
+  <li>GVK ve KVK'da Bazı Vergi Oranları Yeniden Düzenlendi — Alomaliye — 30.4.2026 — <a href="https://www.alomaliye.com/2026/04/30/gvk-ve-kvkda-bazi-vergi-oranlari-yeniden-duzenlendi/">https://www.alomaliye.com/2026/04/30/gvk-ve-kvkda-bazi-vergi-oranlari-yeniden-duzenlendi/</a> (yalnızca arama özetinden)</li>
+  <li>Finansman Gider Kısıtlaması Hesaplama (KVK 11/1-i) — Faturaport — tarih bilinmiyor — <a href="https://faturaport.com/blog/vergi/finansman-gider-kisitlamasi-hesaplama-kvk-11-1-i">https://faturaport.com/blog/vergi/finansman-gider-kisitlamasi-hesaplama-kvk-11-1-i</a> (sayfa açılamadı; yalnızca arama özetinden)</li>
+</ol>
+<div class="not">
+  <strong class="b">Önerilen birincil kaynaklar (teyit için)</strong>
+  Resmî Gazete 4.2.2021 / 31385 (3490 sayılı Karar); mevzuat.gov.tr (5520 md. 11, 193 md. 41, 6322 md. 37); GİB 1 Seri No.lu Kurumlar Vergisi Genel Tebliği.
+</div>
+
+</main>
+</body>
+</html>
+
+---
+DURUM: TAMAM
+OZET: Araştırma içeriği A4 baskı şablonuna yerleştirilip kapak, içindekiler, 8 bölüm, tablolar ve kaynakçalı son HTML rapor üretildi; doğrulanamayan noktalar işaretlendi.
+SONRAKI: yok
